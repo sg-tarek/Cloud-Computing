@@ -1,0 +1,3 @@
+flask
+csvfile
+mysql-connector-python

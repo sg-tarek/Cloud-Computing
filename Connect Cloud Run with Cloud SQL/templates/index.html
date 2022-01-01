@@ -1,0 +1,84 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+        <div class="jumbotron jumbotron-fluid">
+            <h1>OffDig 2022</h1>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                
+                <div class="col-sm-6">
+
+                    <h2>Tilføj ny bruger</h2>
+
+                    <form action="/" method="POST">
+                        <input class="form-control is-valid" type="text" name="navn" autofocus placeholder="Navn på kunde (Skal udfyldes)"> <br>
+                        <input class="form-control is-valid" type="text" name="titel" placeholder="Titel"> <br>
+                        <input class="form-control is-valid" type="text" name="email" placeholder="E-Mail"> <br>
+                        <input class="form-control is-valid" type="text" name="telefonnummer" placeholder="Telefonnummer"> <br>
+                        <input class="form-control is-valid" type="text" name="emne" placeholder="Emne"> <br>
+                        <input class="form-control is-valid" type="text" name="ønsker" placeholder="Hvad ønsker kunden?"> <br>
+                        <input class="form-control is-valid" type="text" name="talt" placeholder="Hvem har talt med kunden?"> <br>
+                        <input class="form-control is-valid" type="text" name="partner" placeholder="Relevant partner der evt. kan overtage">
+                        
+                        <br>
+                        <br>
+
+                        <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="organisation">
+                            <option disabled selected value="">Organisation (Skal udfyldes)</option>
+
+                            {% for organisation in org %}
+                            <option value="{{organisation}}">{{organisation}}</option>
+                            {% endfor %}
+                        </select>
+
+                        <br>
+                        <br>
+
+                        <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="point">
+                            <option disabled selected value="">Point</option>
+                            <option value="1 Faglig samtale med en central person">1. Faglig samtale med en central person</option>
+                            <option value="2 Etablering af kontakt – udveksling af kontaktoplysninger">2. Etablering af kontakt – udveksling af kontaktoplysninger</option>
+                            <option value="3 Opsætning af kundemøder">3. Opsætning af kundemøder</option>
+                        </select>
+
+                        <br>
+                        <br>
+
+                        <input type="submit" value="Tilføj bruger">
+
+                        <br>
+                        <br>
+
+                    </form>
+
+                </div>
+
+                <div class="col-sm-6">
+                    <h3>Antal brugere tilføjet: 
+                        <br>    
+                        <br> 
+                        {{count}}
+                        <br>
+                    </h3>
+                    
+                    <br>
+                    <br>
+                    
+                    <h3>Download database</h3>
+                    <form action="/download">
+                        <input type="submit" value="Download" />
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+
+    <!-- jQuery and Bootstrap Bundle (includes Popper) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+
+    {% endblock %}
