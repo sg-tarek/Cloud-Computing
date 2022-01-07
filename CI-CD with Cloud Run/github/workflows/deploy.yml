@@ -1,0 +1,46 @@
+name: Deploy to Cloud Run
+# Triggered when code is pushed to any branch in a repository
+on: push
+
+jobs:
+  setup-configure-build-deploy:
+    name: Setup, Configure, Build and Deploy
+    runs-on: ubuntu-latest
+
+    # Environmental variable for this job
+    env:
+      PROJECT_ID: ${{ secrets.GCP_PROJECT }}
+      JSON_KEY: ${{ secrets.GCP_CREDENTIALS }}
+      REGION: us-central1
+      SERVICE_NAME: hello-world
+
+    steps:
+    # Reference a branch in the repo
+    - name: checkout
+      uses: actions/checkout@main
+
+    # Authenticate with GCP
+    - id: 'auth'
+      uses: google-github-actions/auth@v0
+      with:
+        credentials_json: ${{ env.JSON_KEY }}
+
+    # Set up Cloud SDK
+    - name: Set up Google Cloud SDK
+      uses: google-github-actions/setup-gcloud@v0
+    
+    # Configure Docker with Credentials
+    - name: Configure Docker
+      run: gcloud auth configure-docker --quiet
+      
+    # Build the Docker image
+    - name: Build
+      run: gcloud builds submit --quiet --tag gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE_NAME }}
+      
+    # Deploy the Docker image to the GKE cluster
+    - name: Deploy
+      run: |
+        gcloud run deploy ${{ env.SERVICE_NAME }} --image gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE_NAME }} \
+        --platform managed \
+        --allow-unauthenticated \
+        --region ${{ env.REGION }}
